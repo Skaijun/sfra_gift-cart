@@ -1,0 +1,12 @@
+<!--- applicable gift cards--->
+<div class="tab-pane gift-card-content" id="gift-card-content" role="tabpanel">
+    <fieldset class="payment-form-fields">
+
+        <!--- payment method is gift card --->
+        <input type="hidden" class="form-control"
+               name="${pdict.forms.billingForm.paymentMethod.htmlName}"
+               value="GIFT_CERTIFICATE"
+        >
+
+    </fieldset>
+</div>
