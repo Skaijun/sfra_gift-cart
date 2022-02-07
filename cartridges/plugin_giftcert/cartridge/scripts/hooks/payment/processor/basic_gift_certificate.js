@@ -1,11 +1,12 @@
 'use strict';
 
 /* API Includes */
+var PaymentInstrument = require('dw/order/PaymentInstrument');
 var GiftCertificateMgr = require('dw/order/GiftCertificateMgr');
 var GiftCertificate = require("dw/order/GiftCertificate");
-var PaymentMgr = require('dw/order/PaymentMgr');
-var PaymentInstrument = require('dw/order/PaymentInstrument');
 var Transaction = require('dw/system/Transaction');
+var PaymentMgr = require('dw/order/PaymentMgr');
+var Resource = require('dw/web/Resource');
 var collections = require("*/cartridge/scripts/util/collections");
 
 /**
@@ -19,18 +20,30 @@ var collections = require("*/cartridge/scripts/util/collections");
 function Handle(basket, giftCode, req) {
     var giftCert = GiftCertificateMgr.getGiftCertificateByCode(giftCode);
     if (!giftCert) {
+        var errMsg = Resource.msg('error.invalid.gift.card', 'giftCard', null);
         return {
             error: true,
-            giftCert: null
+            fieldErrors: [],
+            serverErrors: [].push(errMsg)
         }
     }
 
     var isEnabled = giftCert.isEnabled();
-    if (!isEnabled || GiftCertificate.STATUS_PENDING) {
+    if (!isEnabled || giftCert.getStatus() === GiftCertificate.STATUS_PENDING) {
+        var errMsg = Resource.msg('error.not.enabled.gift.card', 'giftCard', null);
         return {
             error: true,
             fieldErrors: [],
-            serverErrors: ['invalid gift code']
+            serverErrors: [].push(errMsg)
+        }
+    }
+
+    if (giftCert.getStatus() === GiftCertificate.STATUS_REDEEMED) {
+        var errMsg = Resource.msg('error.redeemed.gift.card', 'giftCard', null);
+        return {
+            error: true,
+            fieldErrors: [],
+            serverErrors: [].push(errMsg)
         }
     }
 
