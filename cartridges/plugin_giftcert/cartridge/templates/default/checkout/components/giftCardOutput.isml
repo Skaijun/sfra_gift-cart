@@ -1,0 +1,45 @@
+<isinclude template="/components/modules" />
+
+<isif condition="${pdict.basket.giftCertificatePaymentInstruments.size() > 0}">
+    <isloop items="${pdict.basket.giftCertificatePaymentInstruments}" var="gcPI">
+        <div class="gc-pi" id="gc-${gcPI.getGiftCertificateCode()}">
+            <div class="row gc-code-number">
+                <div class="col-sm-4">
+                    ${Resource.msg("gc.code.number", "giftCard", null)}
+                </div>
+                <div class="col-sm-8">
+                    <isprint value="${gcPI.getGiftCertificateCode()}" encoding="on" />
+                    <a
+                        id="gc-${gcPI.getGiftCertificateCode()}"
+                        class="remove-gc c-button c-button--rounded c-button--close"
+                        style="padding-left: 10px;"
+                        href="${URLUtils.https('GiftCard-Remove', 'giftCertCode', gcPI.getGiftCertificateCode())}"
+                    >X
+                    </a>
+                </div>
+            </div>
+            <div class="row gc-amount-value">
+                <div class="col-sm-4">
+                    ${Resource.msg("gc.redeemed.amount", "giftCard", null)}
+                </div>
+                <div class="col-sm-8">
+                    <isprint value="${gcPI.paymentTransaction.amount}" encoding="on" />
+                </div>
+            </div>
+            <div class="row gc-balance-value">
+                <div class="col-sm-4">
+                    ${Resource.msg("gc.balance", "giftCard", null)}
+                </div>
+                <div class="col-sm-8">
+                    <isloop items="${pdict.gcList}" var="gcItem">
+                        <isif condition="${gcItem.id === gcPI.getGiftCertificateCode()}">
+                            <isprint value="${gcItem.balance}" encoding="on" />
+                        </isif>
+                    </isloop>
+                    <iscomment> <isinclude url="${URLUtils.url('GiftCard-Balance', 'giftCardID', gcPI.getGiftCertificateCode())}"/> </iscomment>
+                </div>
+            </div>
+            <hr />
+        </div>
+    </isloop>
+</isif>

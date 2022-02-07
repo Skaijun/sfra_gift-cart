@@ -1,0 +1,4 @@
+<div class="card-body">
+    <isinclude template="checkout/billing/giftCardForm" />
+    <div class="giftcode-output"></div>
+</div>

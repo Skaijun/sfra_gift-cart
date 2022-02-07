@@ -1,0 +1,44 @@
+<iscomment> <isscript>
+    var assets = require('*/cartridge/scripts/assets.js');
+    assets.addJs('/js/giftCard.js');
+    assets.addCss('/scss/pages/gift-cards.css');
+</isscript> </iscomment>
+
+<div class="row">
+    <div class="col-12">
+        <form action="${URLUtils.https('GiftCard-Add')}" class="gift-card-form" method="POST" name="gift-card-form">
+            <div class="form-group">
+                <label for="giftCardNumber">${Resource.msg('label.gift.card', 'giftCard', null)}</label>
+                <div class="row">
+                    <div class="col-8">
+                        <input
+                            type="text"
+                            class="form-control gift-card-field"
+                            id="giftCardNumber"
+                            name="giftCardNumber"
+                            maxlength="16"
+                        />
+                        <div class="gift-card-error">
+                            <span
+                                class="gift-card-missing-error d-none"
+                                id="missingGiftCardNumber"
+                                role="alert"
+                            >${Resource.msg('error.missing.gift.card', 'giftCard', null)}</span>
+                            <span
+                                class="gift-card-error-message d-none"
+                                id="invalidGiftCardNumber"
+                                role="alert"
+                            >${Resource.msg('error.invalid.gift.card', 'giftCard', null)}</span>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="${pdict.csrf.tokenName}" value="${pdict.csrf.token}"/>
+
+                    <div class="col-4 gift-card-submit">
+                        <button type="submit" class="btn btn-primary btn-block gift-card-btn">${Resource.msg('button.add.gift.card', 'giftCard', null)}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
